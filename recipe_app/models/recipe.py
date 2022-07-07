@@ -1,5 +1,5 @@
 from recipe_app.config.mysqlconnection import connectToMySQL
-from recipe_app.models import recipe
+from recipe_app.models import user
 class Recipe:
     def __init__(self,data):
         self.id=data["id"]
@@ -11,6 +11,8 @@ class Recipe:
         self.user_id = data["user_id"]
         self.created_at = data["created_at"]
         self.updated_at = data["updated_at"]
+
+        self.users=[]
 
     @classmethod
     def create(cls,data):
@@ -27,18 +29,27 @@ class Recipe:
         return recipes
 
     @classmethod
-    def get_user_with_recipes(cls,data):
-        query="SELECT * FROM users LEFT JOIN recipes ON recipes.user_id = users.id WHERE users.id = %(id)s ;"
-        results= connectToMySQL("recipes").query_db(query,data)
-        users = cls(results[0])
+    def get_recipe_with_user(cls):
+        query="SELECT * FROM recipes LEFT JOIN users on users.id = recipes.user_id ;"
+        results= connectToMySQL("recipes").query_db(query)
+        recipe = cls(results[0])
         for all in results:
             recipe_data={
-                "id": all["recipes.id"],
-                "name": all["name"],
-                "description":all["description"],
-                "instruction":all["instruction"],
-                "date_made_on":all["date_made_on"]
+                "id": all["users.id"],
+                "first_name": all["first_name"],
+                "last_name":all["last_name"],
+                "email":all["email"],
+                "password":all["password"],
+                "created_at":all["created_at"],
+                "updated_at":all["updated_at"]
             }
-            users.recipe
+            recipe.users.append(user.User(recipe_data))
+        return recipe
+
+    @classmethod
+    def get_one_recipe(cls,data):
+        query="SELECT * FROM recipes WHERE recipes.id=%(id)s;"
+        results=  connectToMySQL("recipes").query_db(query,data)
+        return cls(results[0])
 
 
