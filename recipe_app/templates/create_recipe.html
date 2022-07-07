@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipes</title>
+</head>
+<body>
+    <h1>Add New Recipe</h1>
+    <a href="/dashboard">Dashboard</a>
+    <a href="/logout">Log out</a>
+    <form action="/create/recipe" method="post">
+        <!-- <input type="hidden" name="user_id"/> -->
+        <p>
+            <label>Name:</label>
+            <input type="text" name="NAME"/>
+         </p>
+         <p>
+            <label>Description:</label>
+            <textarea name="DESCRIPTION"></textarea>
+         </p>         
+         <p>
+            <label>Instructions:</label>
+            <textarea name="INSTRUCTION"></textarea>
+         </p>
+         <P>
+            <label>Date Made On:</label>
+            <input type="date" name="DATE_MADE_ON" />
+        </P>
+        <P>
+            <label>Under 30 Minutes?:</label>
+            <input type="radio" name="UNDER_30_MINUTES" />
+            <label>Yes</label>
+            <input type="radio" name="UNDER_30_MINUTES"  />
+            <label>No</label>
+        </P>
+        <input type="submit" value="Create"/>
+    </form>
+</body>
+</html>

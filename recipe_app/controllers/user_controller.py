@@ -1,6 +1,7 @@
-from flask_app import app
+from recipe_app import app
 from flask import render_template, redirect, session, flash, request
-from flask_app.models.user import User
+from recipe_app.models.user import User
+from recipe_app.models.recipe import Recipe
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
 
@@ -34,7 +35,8 @@ def dashboard():
         "id": session["user_id"]
     }
     user=User.get_user_by_id(data)
-    return render_template("dashboard.html", user= user)
+    recipe = Recipe.get_all_recipe()
+    return render_template("dashboard.html", user= user, recipes=recipe)
 
 @app.route("/login", methods=["post"])
 def login():

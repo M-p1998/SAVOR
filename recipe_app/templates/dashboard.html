@@ -7,7 +7,27 @@
     <title>Dashboard</title>
 </head>
 <body>
-    <h1>Welcome </h1>
+    <h1>Welcome {{user.first_name}} </h1>
+    <a href="/recipes/new">Create</a>
     <a href="/logout">Log out</a>
+    <p>These are the recipes</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Under 30 Minutes?</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for recipe in recipes %}
+                <tr>
+                    <td>{{recipe.name}}</td>
+                    <td>{{recipe.under_30_minutes}}</td>
+                    <td><a href="/">view instructions</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </body>
 </html>
