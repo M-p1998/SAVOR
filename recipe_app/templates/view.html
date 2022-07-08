@@ -7,9 +7,13 @@
     <title>Recipes</title>
 </head>
 <body>
-    <h1>Welcome {{One.first_name}} </h1>
+    <h1>Welcome {{user.first_name}} </h1>
     <a href="/dashboard">Dashboard</a>
     <a href="/logout">Log out</a>
-    <h1>{{One_recipe.name}}</h1>
+    <h1>{{recipe.name}}</h1>
+    <p>Description: {{recipe.description}}</p>
+    <p>Under 30 minutes: {{recipe.under_30_minutes}}</p>
+    <p>Instructions: {{recipe.instruction}}</p>
+    <p>Date Made: {{recipe.date_made_on}}</p>
 </body>
 </html>

@@ -7,6 +7,7 @@ import re
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$') 
 
 class User:
+    db_name="recipes"
     def __init__(self,data):
         self.id = data["id"]
         self.first_name = data["first_name"]
@@ -19,13 +20,13 @@ class User:
     @classmethod
     def get_user_by_id(cls, data):
         query = "SELECT * FROM users WHERE users.id = %(id)s;"
-        results = connectToMySQL("recipes").query_db(query,data)
+        results = connectToMySQL(cls.db_name).query_db(query,data)
         return cls(results[0])
     
     @classmethod
     def get_user_by_email(cls, data):
         query = "SELECT * FROM users WHERE users.email = %(Email)s;"
-        results = connectToMySQL("recipes").query_db(query,data)
+        results = connectToMySQL(cls.db_name).query_db(query,data)
         print(results)
         if len(results) == 0:
             return False    
@@ -35,7 +36,7 @@ class User:
     @classmethod
     def register_user(cls, data):
         query= "INSERT INTO users (first_name,last_name,email,password,created_at,updated_at) VALUES (%(Fname)s,%(Lname)s,%(Email)s,%(Password)s,NOW(),NOW());"
-        results = connectToMySQL("recipes").query_db(query,data)
+        results = connectToMySQL(cls.db_name).query_db(query,data)
         return results
 
     @staticmethod
@@ -73,7 +74,7 @@ class User:
             is_valid = False
 
         query = "SELECT * FROM users WHERE email = %(Email)s;"
-        results = connectToMySQL("recipes").query_db(query,data)
+        results = connectToMySQL(cls.db_name).query_db(query,data)
         print(f"results:{results}")
         # we do not expect anything to be inside of result.
         if len(results) >= 1:
@@ -84,7 +85,7 @@ class User:
     @classmethod
     def login_user(cls,data):
         query="INSERT INTO users (email,password) VALUES (%(Email)s,%(Password)s);"
-        results = connectToMySQL("recipes").query_db(query,data)
+        results = connectToMySQL(cls.db_name).query_db(query,data)
         return results
 
     @staticmethod
