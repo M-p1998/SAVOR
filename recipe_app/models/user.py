@@ -74,7 +74,7 @@ class User:
             is_valid = False
 
         query = "SELECT * FROM users WHERE email = %(Email)s;"
-        results = connectToMySQL(cls.db_name).query_db(query,data)
+        results = connectToMySQL(User.db_name).query_db(query,data)
         print(f"results:{results}")
         # we do not expect anything to be inside of result.
         if len(results) >= 1:

@@ -1,5 +1,6 @@
 from recipe_app.config.mysqlconnection import connectToMySQL
 from recipe_app.models import user
+from flask import flash
 class Recipe:
     db_name="recipes"
     def __init__(self,data):
@@ -9,7 +10,7 @@ class Recipe:
         self.instruction= data["instruction"]
         self.date_made_on = data["date_made_on"]
         self.under_30_minutes = data["under_30_minutes"]
-        # self.user_id = data["user_id"]
+        self.user_id = data["user_id"]
         self.created_at = data["created_at"]
         self.updated_at = data["updated_at"]
 
@@ -65,6 +66,27 @@ class Recipe:
         query="DELETE FROM recipes WHERE recipes.id=%(id)s;"
         return connectToMySQL(cls.db_name).query_db(query,data)
       
+    @staticmethod
+    def validate_recipe(data):
+        is_valid=True
+        if len(data["NAME"]) <3:
+            flash("Name must be at least 3 characters.","recipe")
+            is_valid=False
+        if len(data["DESCRIPTION"]) <3:
+            flash("Description must be at least 3 characters.",'recipe')
+            is_valid=False
         
+        if len(data["INSTRUCTION"]) <3:
+            flash("Instructions must be at least 3 characters.",'recipe')
+            is_valid=False
+        if len(data["DATE_MADE_ON"]) =="":
+            flash("Please enter a date","recipe")
+            is_valid=False
+            
+        if "UNDER_30_MINUTES" not in data  :
+            flash("Please choose one.","recipe")
+            is_valid=False
+       
+        return is_valid
 
 

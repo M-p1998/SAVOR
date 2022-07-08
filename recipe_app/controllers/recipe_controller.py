@@ -3,6 +3,7 @@ from recipe_app.models.recipe import Recipe
 from recipe_app.models.user import User
 from flask import render_template, redirect, session, flash, request
 
+
 @app.route("/recipes/new")
 def new():
     return render_template("create_recipe.html")
@@ -11,6 +12,10 @@ def new():
 def createRecipe():
     if "user_id" not in session:
         return redirect("/logout")
+
+    if not Recipe.validate_recipe(request.form):
+        return redirect("/recipes/new")
+    print (request.form)
     data={
         "NAME": request.form["NAME"],
         "DESCRIPTION":request.form["DESCRIPTION"],
@@ -19,7 +24,8 @@ def createRecipe():
         "UNDER_30_MINUTES":request.form["UNDER_30_MINUTES"],
         "user_id": session["user_id"]
     }
-    Recipe.create(data)
+    Recipe.create(data) 
+    print(data)
     return redirect("/dashboard")
 
 @app.route("/recipes/<int:id>")
@@ -53,7 +59,7 @@ def updateRecipe(recipe_id):
         "INSTRUCTION":request.form["INSTRUCTION"],
         "DATE_MADE_ON":request.form["DATE_MADE_ON"],
         "UNDER_30_MINUTES":request.form["UNDER_30_MINUTES"],
-        # "user_id": session["user_id"]
+        "user_id": session["user_id"]
     }
     Recipe.update_recipe(data)
     return redirect("/dashboard")

@@ -12,6 +12,16 @@
     <a href="/logout">Log out</a>
     <form action="/create/recipe" method="post">
         <!-- <input type="hidden" name="user_id"/> -->
+        {% with messages = get_flashed_messages(category_filter=['recipe']) %}
+            {% if messages %}
+            <div class="alert alert-danger" role="alert">
+                <strong>Flash!!!!</strong>
+                    {% for message in messages %}
+                    <p>{{message}}</p>
+                    {% endfor %}
+            </div>
+            {% endif %}
+        {% endwith %}
         <p>
             <label>Name:</label>
             <input type="text" name="NAME"/>
@@ -30,9 +40,9 @@
         </P>
         <P>
             <label>Under 30 Minutes?:</label>
-            <input type="radio" name="UNDER_30_MINUTES" value="yes"/>
+            <input type="radio" name="UNDER_30_MINUTES" value="Yes"/>
             <label>Yes</label>
-            <input type="radio" name="UNDER_30_MINUTES" value="no"  />
+            <input type="radio" name="UNDER_30_MINUTES" value="No"  />
             <label>No</label>
         </P>
         <input type="submit" value="Create"/>

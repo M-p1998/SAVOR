@@ -36,6 +36,8 @@ def dashboard():
     }
     user=User.get_user_by_id(data)
     recipe = Recipe.get_all_recipe()
+    print(data)
+    print(recipe[0].user_id)
     return render_template("dashboard.html", user= user, recipes=recipe)
 
 @app.route("/login", methods=["post"])
