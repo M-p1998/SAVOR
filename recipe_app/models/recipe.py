@@ -21,6 +21,8 @@ class Recipe:
         query="INSERT INTO recipes (name,description,instruction,date_made_on,under_30_minutes,user_id) VALUES (%(NAME)s,%(DESCRIPTION)s, %(INSTRUCTION)s, %(DATE_MADE_ON)s, %(UNDER_30_MINUTES)s, %(user_id)s);"
         return connectToMySQL(cls.db_name).query_db(query,data)
 
+    
+
     @classmethod
     def get_all_recipe(cls):
         query="SELECT * FROM recipes;"

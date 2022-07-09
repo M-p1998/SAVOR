@@ -1,6 +1,7 @@
 from recipe_app import app
 from recipe_app.models.recipe import Recipe
 from recipe_app.models.user import User
+from recipe_app.models.comment import Comment
 from flask import render_template, redirect, session, flash, request
 
 
@@ -80,3 +81,16 @@ def delete(recipe_id):
     }
     Recipe.delete_recipe(data)
     return redirect("/dashboard")
+
+@app.route("/writeComment", methods=["post"])
+def create_comment():
+    data={
+        "comment": request.form["comment"],
+        "user_id": session["user_id"],
+        "recipe_id": request.form["recipe_id"]
+    }
+    Comment.createComment(data)
+    
+    id = request.form["recipe_id"]
+    print(request.form)
+    return redirect("/dashboard", recipe=Recipe.get_one_recipe(data))

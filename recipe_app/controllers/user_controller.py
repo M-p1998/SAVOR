@@ -37,7 +37,7 @@ def dashboard():
     user=User.get_user_by_id(data)
     recipe = Recipe.get_all_recipe()
     print(data)
-    print(recipe[0].user_id)
+    # print(recipe[0].user_id)
     return render_template("dashboard.html", user= user, recipes=recipe)
 
 @app.route("/login", methods=["post"])
@@ -65,3 +65,20 @@ def login():
 def logout():
     session.clear()
     return redirect("/")
+
+@app.route("/users")
+def users():
+    if "user_id" not in session:
+        return redirect("/logout")
+
+    user=User.get_all_users()
+    return render_template("users.html", user = user)
+
+@app.route("/follow/<int:user_id>")
+def follow(user_id):
+    data={
+        "uid":session["user_id"],
+        "uid2": user_id 
+    }
+    User.follow_user(data)
+    return redirect("/users")

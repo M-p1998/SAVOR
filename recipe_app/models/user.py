@@ -92,3 +92,18 @@ class User:
     def validate_login(data):
         is_valid = True
         return is_valid
+
+    @classmethod
+    def get_all_users(cls):
+        query = "SELECT * FROM users;"
+        results=connectToMySQL(cls.db_name).query_db(query)
+        users=[]
+        for one_user in results:
+            users.append(cls(one_user))
+        return users
+
+    @classmethod
+    def follow_user(cls,data):
+        query="INSERT INTO followers (user_following, user_being_followed) VALUES (%(uid)s, %(uid2)s);"
+        results = connectToMySQL(cls.db_name).query_db(query,data)
+        return results

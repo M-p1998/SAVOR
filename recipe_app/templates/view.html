@@ -16,6 +16,16 @@
     <p>Instructions: {{recipe.instruction}}</p>
     <p>Date Made: {{recipe.date_made_on.strftime('%b-%d-%Y')}}</p>
     <p>Made by: {{NewUser.users.first_name}} {{NewUser.users.last_name}}
-    <input type="submit" value="follow" /> </p>
+        <a href="/follow">Follow</a> </p>
+
+    <form action="/writeComment" method="post">
+        
+        <p>
+            <label>Write a comment:</label>
+            <textarea name="comment" type="text" ></textarea>
+            <input type="hidden" name="recipe_id"/>
+        </p>
+        <input type="submit" value="Submit" />
+    </form>
 </body>
 </html>
