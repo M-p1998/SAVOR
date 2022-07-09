@@ -14,6 +14,8 @@
     <p>Description: {{recipe.description}}</p>
     <p>under_30_minutes: {{recipe.under_30_minutes}} </p>
     <p>Instructions: {{recipe.instruction}}</p>
-    <p>Date Made: {{recipe.date_made_on}}</p>
+    <p>Date Made: {{recipe.date_made_on.strftime('%b-%d-%Y')}}</p>
+    <p>Made by: {{NewUser.users.first_name}} {{NewUser.users.last_name}}
+    <input type="submit" value="follow" /> </p>
 </body>
 </html>

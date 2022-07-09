@@ -12,6 +12,16 @@
     <a href="/logout">Log out</a>
     <form action="/update/recipe/{{oneRecipe.id}}" method="post">
         <!-- <input type="hidden" name="user_id"/> -->
+        {% with messages = get_flashed_messages(category_filter=['recipe']) %}
+            {% if messages %}
+            <div class="alert alert-danger" role="alert">
+                <strong>Flash!!!!</strong>
+                    {% for message in messages %}
+                    <p>{{message}}</p>
+                    {% endfor %}
+            </div>
+            {% endif %}
+        {% endwith %}
         <p>
             <label>Name:</label>
             <input type="text" name="NAME" value="{{oneRecipe.name}}" />

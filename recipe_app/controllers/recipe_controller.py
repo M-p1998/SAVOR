@@ -30,20 +30,27 @@ def createRecipe():
 
 @app.route("/recipes/<int:id>")
 def view_one(id):
+    if "user_id" not in session:
+        return redirect("/logout")
     recipe_data={
         "id": id
     }
     user_data={
         "id":session["user_id"]
     }
+    
     # One= Recipe.get_one_recipe(data)
     get_recipe=Recipe.get_one_recipe(recipe_data)
     get_user = User.get_user_by_id(user_data)
+    # user = Recipe.get_user_recipe(data)
+    user = Recipe.get_recipe_with_user(recipe_data)
     
-    return render_template("view.html", recipe=get_recipe, user=get_user)
+    return render_template("view.html", recipe=get_recipe, user=get_user, NewUser=user)
 
 @app.route("/recipes/edit/<int:recipe_id>")
 def edit(recipe_id):
+    if "user_id" not in session:
+        redirect ("/logout")
     data={
         "id": recipe_id
     }
@@ -52,6 +59,8 @@ def edit(recipe_id):
 
 @app.route("/update/recipe/<int:recipe_id>", methods=["post"])
 def updateRecipe(recipe_id):
+    if not Recipe.validate_recipe(request.form):
+        return redirect(f"/recipes/edit/{recipe_id}")
     data={
         "id": recipe_id,
         "NAME": request.form["NAME"],
