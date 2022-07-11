@@ -16,6 +16,8 @@ class User:
         self.password = data["password"]
         self.created_at = data["created_at"]
         self.updated_at = data["updated_at"]
+
+        self.one_follower = False
     
     @classmethod
     def get_user_by_id(cls, data):
@@ -103,7 +105,27 @@ class User:
         return users
 
     @classmethod
-    def follow_user(cls,data):
+    def followed_user(cls,data):
         query="INSERT INTO followers (user_following, user_being_followed) VALUES (%(uid)s, %(uid2)s);"
         results = connectToMySQL(cls.db_name).query_db(query,data)
         return results
+
+    @classmethod
+    def unfollowed_user(cls,data):
+        query="DELETE FROM followers WHERE user_following=%(uid)s AND user_being_followed=%(uid2)s;"
+        results= connectToMySQL(cls.db_name).query_db(query,data)
+        return results
+
+    @classmethod
+    def show_users(cls,data):
+        query="SELECT user_being_followed FROM followers WHERE user_following = %(id)s;"
+        # query = "SELECT * FROM users WHERE id <> %(id)s ORDER BY last_name ASC"
+        results = connectToMySQL(cls.db_name).query_db(query,data)
+        users=[]
+        for user in results:
+            users.append(cls(user))
+        return users
+
+    # @classmethod
+    # def followedUsers(cls,data):
+    #     query=""

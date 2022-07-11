@@ -70,9 +70,21 @@ def logout():
 def users():
     if "user_id" not in session:
         return redirect("/logout")
-
+    data={
+        "id":session["user_id"]
+    } 
+    followed_users= User.show_users(data)
     user=User.get_all_users()
-    return render_template("users.html", user = user)
+    for users in user:
+        for one in followed_users:
+            
+            if users.id == one.user_being_followed:
+                users.one_follower = True 
+                break
+            else:
+                users.one_follower=False
+
+    return render_template("users.html", user = user, followed_users=followed_users )
 
 @app.route("/follow/<int:user_id>")
 def follow(user_id):
@@ -80,5 +92,15 @@ def follow(user_id):
         "uid":session["user_id"],
         "uid2": user_id 
     }
-    User.follow_user(data)
+    User.followed_user(data)
+    return redirect("/users")
+
+@app.route("/unfollow/<int:user_id>")
+def unfollow(user_id):
+    
+    data={
+        "uid":session["user_id"],
+        "uid2": user_id 
+    }
+    User.unfollowed_user(data)
     return redirect("/users")

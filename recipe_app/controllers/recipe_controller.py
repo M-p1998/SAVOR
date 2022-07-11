@@ -82,15 +82,15 @@ def delete(recipe_id):
     Recipe.delete_recipe(data)
     return redirect("/dashboard")
 
-@app.route("/writeComment", methods=["post"])
-def create_comment():
+@app.route("/writeComment/<int:recipe_id>", methods=["post"])
+def create_comment(recipe_id):
     data={
         "comment": request.form["comment"],
         "user_id": session["user_id"],
-        "recipe_id": request.form["recipe_id"]
+        # "recipe_id": request.form["recipe_id"],
+        "recipe_id": recipe_id,
+        "id" :recipe_id
     }
-    Comment.createComment(data)
-    
-    id = request.form["recipe_id"]
+    comment = Comment.createComment(data)
     print(request.form)
-    return redirect("/dashboard", recipe=Recipe.get_one_recipe(data))
+    return redirect(f"/recipes/{recipe_id}")

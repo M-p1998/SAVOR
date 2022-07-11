@@ -16,14 +16,18 @@
     <p>Instructions: {{recipe.instruction}}</p>
     <p>Date Made: {{recipe.date_made_on.strftime('%b-%d-%Y')}}</p>
     <p>Made by: {{NewUser.users.first_name}} {{NewUser.users.last_name}}
-        <a href="/follow">Follow</a> </p>
+        {% if user.id != session.user_id %}
+                    
+             <td><a href="/follow/{{user.id}}">Follow</a></td>
+                    
+        {% endif %}
 
-    <form action="/writeComment" method="post">
+    <form action="/writeComment/{{recipe.id}}" method="post">
         
         <p>
             <label>Write a comment:</label>
             <textarea name="comment" type="text" ></textarea>
-            <input type="hidden" name="recipe_id"/>
+            <!-- <input type="hidden" name="recipe_id"/> -->
         </p>
         <input type="submit" value="Submit" />
     </form>

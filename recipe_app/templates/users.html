@@ -8,6 +8,7 @@
 </head>
 <body>
     <h1>Users</h1>
+    <a href="/dashboard">Dashboard</a>
     <table>
         <thead>
             <th>Name</th>
@@ -19,7 +20,13 @@
             <tr>
                 <td>{{user.first_name}} {{user.last_name}}</td>
                 <td>{{user.email}}</td>
-                <td><a href="/follow/{{user.id}}">Follow</a></td>
+                {% if user.id != session.user_id %}
+                    {% if user.one_follower %}
+                    <td><a href="/unfollow/{{user.id}}">Unfollow</a></td>
+                    {% else %}
+                    <td><a href="/follow/{{user.id}}">follow</a></td>
+                    {% endif %}
+                {% endif %}
             </tr>
             {% endfor %}
         </tbody>
