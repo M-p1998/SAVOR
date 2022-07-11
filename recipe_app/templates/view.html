@@ -17,9 +17,11 @@
     <p>Date Made: {{recipe.date_made_on.strftime('%b-%d-%Y')}}</p>
     <p>Made by: {{NewUser.users.first_name}} {{NewUser.users.last_name}}
         {% if user.id != session.user_id %}
-                    
-             <td><a href="/follow/{{user.id}}">Follow</a></td>
-                    
+            {% if user.id in followed_users %}
+            <td><a href="/unfollow/{{user.id}}">Unfollow</a></td>
+            {% else %}
+            <td><a href="/follow/{{user.id}}">Follow</a></td>
+            {% endif %}
         {% endif %}
 
     <form action="/writeComment/{{recipe.id}}" method="post">
@@ -31,5 +33,10 @@
         </p>
         <input type="submit" value="Submit" />
     </form>
+        
+            <p>{{comments.comment}}</p>
+        
+    
+    
 </body>
 </html>

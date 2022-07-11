@@ -39,14 +39,12 @@ def view_one(id):
     user_data={
         "id":session["user_id"]
     }
-    
-    # One= Recipe.get_one_recipe(data)
+    comments = Comment.get_comment_with_recipe(recipe_data)
     get_recipe=Recipe.get_one_recipe(recipe_data)
     get_user = User.get_user_by_id(user_data)
-    # user = Recipe.get_user_recipe(data)
     user = Recipe.get_recipe_with_user(recipe_data)
     
-    return render_template("view.html", recipe=get_recipe, user=get_user, NewUser=user)
+    return render_template("view.html", recipe=get_recipe, user=get_user, NewUser=user, comments=comments)
 
 @app.route("/recipes/edit/<int:recipe_id>")
 def edit(recipe_id):

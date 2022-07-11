@@ -1,3 +1,4 @@
+from recipe_app.config.mysqlconnection import connectToMySQL
 from recipe_app import app
 from flask import render_template, redirect, session, flash, request
 from recipe_app.models.user import User
@@ -70,21 +71,29 @@ def logout():
 def users():
     if "user_id" not in session:
         return redirect("/logout")
+
+    # followed_users= User.show_users(data)
+    users=User.get_all_users()
+    # for users in user:
+    #     for one in followed_users:
+            
+    #         if users.id == one.user_being_followed:
+    #             users.one_follower = True 
+    #             break
+    #         else:
+    #             users.one_follower=False
+    # mysql = connectToMySQL("recipes")
+    # query="SELECT user_being_followed FROM followers WHERE user_following = %(id)s;"
     data={
         "id":session["user_id"]
     } 
-    followed_users= User.show_users(data)
-    user=User.get_all_users()
-    for users in user:
-        for one in followed_users:
-            
-            if users.id == one.user_being_followed:
-                users.one_follower = True 
-                break
-            else:
-                users.one_follower=False
-
-    return render_template("users.html", user = user, followed_users=followed_users )
+    # # {% if user.id != session.user_id %}
+    # #  <td><a href="/follow/{{user.id}}">Follow</a></td>
+                    
+    #     # {% endif %}
+    # followed_users = [user["user_being_followed"] for user in mysql.query_db(query,data)]
+    followed_users = User.show_users(data)
+    return render_template("users.html", user = users, followed_users=followed_users )
 
 @app.route("/follow/<int:user_id>")
 def follow(user_id):

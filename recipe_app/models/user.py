@@ -123,7 +123,7 @@ class User:
         results = connectToMySQL(cls.db_name).query_db(query,data)
         users=[]
         for user in results:
-            users.append(cls(user))
+            users.append(user["user_being_followed"])
         return users
 
     # @classmethod

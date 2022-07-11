@@ -21,10 +21,10 @@
                 <td>{{user.first_name}} {{user.last_name}}</td>
                 <td>{{user.email}}</td>
                 {% if user.id != session.user_id %}
-                    {% if user.one_follower %}
+                    {% if user.id in followed_users %}
                     <td><a href="/unfollow/{{user.id}}">Unfollow</a></td>
                     {% else %}
-                    <td><a href="/follow/{{user.id}}">follow</a></td>
+                    <td><a href="/follow/{{user.id}}">Follow</a></td>
                     {% endif %}
                 {% endif %}
             </tr>
