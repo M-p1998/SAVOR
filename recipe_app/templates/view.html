@@ -29,12 +29,14 @@
         <p>
             <label>Write a comment:</label>
             <textarea name="comment" type="text" ></textarea>
-            <!-- <input type="hidden" name="recipe_id"/> -->
         </p>
         <input type="submit" value="Submit" />
     </form>
-        
-            <p>{{comments.comment}}</p>
+    <p> 
+        {% for comment in all.comments %}
+            <p> {{NewUser.users.first_name}} says: {{comment.comment}}</p>
+        {% endfor %}
+    </p>
         
     
     

@@ -1,5 +1,6 @@
 from recipe_app.config.mysqlconnection import connectToMySQL
 from recipe_app.models import user
+from recipe_app.models import comment
 from flask import flash
 class Recipe:
     db_name="recipes"
@@ -15,6 +16,8 @@ class Recipe:
         self.updated_at = data["updated_at"]
 
         self.users=[]
+
+        self.comments=[]
 
     @classmethod
     def create(cls,data):
@@ -77,6 +80,24 @@ class Recipe:
         query="DELETE FROM recipes WHERE recipes.id=%(id)s;"
         return connectToMySQL(cls.db_name).query_db(query,data)
       
+    @classmethod
+    def get_recipe_with_comment(cls,data):
+        query="SELECT * FROM recipes LEFT JOIN comments ON comments.recipe_id = recipes.id WHERE recipes.id = %(id)s;"
+        results=  connectToMySQL(cls.db_name).query_db(query,data)
+        recipe = cls(results[0])
+        for one_recipe in results:
+            comment_data={
+                "id" : one_recipe["id"],
+                "comment" : one_recipe["comment"],
+                "user_id" :one_recipe["user_id"],
+                "recipe_id" :one_recipe["recipe_id"],
+                "created_at" : one_recipe["created_at"],
+                "updated_at": one_recipe["updated_at"]
+            }
+            recipe.comments.append(comment.Comment(comment_data))
+        return recipe
+
+        
     @staticmethod
     def validate_recipe(data):
         is_valid=True

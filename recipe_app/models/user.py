@@ -17,7 +17,8 @@ class User:
         self.created_at = data["created_at"]
         self.updated_at = data["updated_at"]
 
-        self.one_follower = False
+        # self.one_follower = False
+        
     
     @classmethod
     def get_user_by_id(cls, data):
@@ -126,6 +127,4 @@ class User:
             users.append(user["user_being_followed"])
         return users
 
-    # @classmethod
-    # def followedUsers(cls,data):
-    #     query=""
+   
