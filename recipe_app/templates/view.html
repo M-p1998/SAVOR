@@ -25,7 +25,16 @@
         {% endif %}
 
     <form action="/writeComment/{{recipe.id}}" method="post">
-        
+        {% with messages = get_flashed_messages (category_filter=['comment']) %}
+            {% if messages %}
+            <div class="alert alert-danger" role="alert">
+                <strong>Flash!!!!</strong>
+                    {% for message in messages %}
+                    <p>{{message}}</p>
+                    {% endfor %}
+            </div>
+            {% endif %}
+        {% endwith %}
         <p>
             <label>Write a comment:</label>
             <textarea name="comment" type="text" ></textarea>
@@ -34,10 +43,22 @@
     </form>
     <p> 
         {% for comment in all.comments %}
-            <p> {{comment.first_name}} says: {{comment.comment}}</p>
+            {% if comment.comment %}
+                <p> {{comment.userName}} says: {{comment.comment}} </p>
+                <!-- <input type="submit" value="Like"/>  -->
+                    
+                        {% if comment.id in LIKE %}
+                        <td><a href="/comments/{{comment.id}}/add_like">Like</a></td>
+                        {% else %}
+                        <td><a href="/comments/{{comment.id}}/unlike">Unlike</a></td>
+                        {% endif %}
+                   
+            {% endif %}
         {% endfor %}
     </p>
-        
+    
+    {% if user.id != session.user_id %}
+    {% endif %}
     
     
 </body>

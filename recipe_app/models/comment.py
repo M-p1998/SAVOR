@@ -1,6 +1,7 @@
 from recipe_app.models import recipe
 from recipe_app.models import user
 from recipe_app.config.mysqlconnection import connectToMySQL
+from flask import flash
 
 class Comment:
     db_name="recipes"
@@ -14,6 +15,8 @@ class Comment:
 
         self.userss = []
 
+        self.userName=""
+        
     @classmethod
     def createComment(cls,data):
         query="INSERT INTO comments (comment,user_id,recipe_id) VALUES (%(comment)s,%(user_id)s,%(recipe_id)s);"
@@ -37,4 +40,10 @@ class Comment:
             comment.userss.append(user.User(user_data))
         return comment
 
-    
+    @staticmethod
+    def validate_comment(data):
+        is_valid=True
+        if len(data["comment"]) < 3:
+            flash("Comment must be at least 3 characters.","comment")
+            is_valid = False
+        return is_valid

@@ -24,8 +24,6 @@ class Recipe:
         query="INSERT INTO recipes (name,description,instruction,date_made_on,under_30_minutes,user_id) VALUES (%(NAME)s,%(DESCRIPTION)s, %(INSTRUCTION)s, %(DATE_MADE_ON)s, %(UNDER_30_MINUTES)s, %(user_id)s);"
         return connectToMySQL(cls.db_name).query_db(query,data)
 
-    
-
     @classmethod
     def get_all_recipe(cls):
         query="SELECT * FROM recipes;"
@@ -54,14 +52,6 @@ class Recipe:
             recipe.users=users
         return recipe
 
-    # @classmethod
-    # def get_user_recipe(cls,data):
-    #     query= "SELECT * FROM users LEFT JOIN recipes on users.id = recipes.user_id LEFT JOIN users ON users.id = recipes.user_id WHERE users.id = %(id)s; "
-    #     results = connectToMySQL(cls.db_name).query_db(query,data)
-    #     all = []
-    #     for one in results:
-    #         all.append(cls(one))
-    #     return all
     @classmethod
     def get_one_recipe(cls,data):
         query="SELECT * FROM recipes WHERE id=%(id)s;"
@@ -82,7 +72,7 @@ class Recipe:
       
     @classmethod
     def get_recipe_with_comment(cls,data):
-        query="SELECT * FROM recipes LEFT JOIN comments ON comments.recipe_id = recipes.id WHERE recipes.id = %(id)s;"
+        query="SELECT * FROM recipes LEFT JOIN comments ON comments.recipe_id = recipes.id LEFT JOIN users ON comments.user_id = users.id WHERE recipes.id = %(id)s;"
         results=  connectToMySQL(cls.db_name).query_db(query,data)
         recipe = cls(results[0])
         for one_recipe in results:
@@ -94,10 +84,12 @@ class Recipe:
                 "created_at" : one_recipe["created_at"],
                 "updated_at": one_recipe["updated_at"]
             }
-            recipe.comments.append(comment.Comment(comment_data))
+            get_comments = comment.Comment(comment_data)
+            get_comments.userName = one_recipe["first_name"]
+            recipe.comments.append(get_comments)
         return recipe
 
-        
+
     @staticmethod
     def validate_recipe(data):
         is_valid=True

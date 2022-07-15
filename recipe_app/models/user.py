@@ -16,9 +16,6 @@ class User:
         self.password = data["password"]
         self.created_at = data["created_at"]
         self.updated_at = data["updated_at"]
-
-        # self.one_follower = False
-        
     
     @classmethod
     def get_user_by_id(cls, data):
@@ -128,8 +125,24 @@ class User:
         return users
 
     @classmethod
-    def get_comment_with_user(cls,data):
-        query="SELECT comments.user_id, comments.id as comment_id,users.first_name,comments.comment, comments.created_at,comments.comment as liked_comments from likes RIGHT JOIN comments ON comments.id = likes.comment_id JOIN users ON comments.user_id = users.id GROUP BY comment_id ORDER BY comments.created_at DESC;"
+    def likeComments(cls,data):
+        query="SELECT COUNT(comment_id) as times_liked from likes RIGHT JOIN comments ON comments.id = likes.comment_id JOIN users ON comments.user_id = users.id GROUP BY comment_id ORDER BY comments.created_at DESC;"
         results = connectToMySQL(cls.db_name).query_db(query,data)
+        likes = []
+        for like in results:
+            likes.append(like["comment_id"])
+        return likes
+
+    @classmethod
+    def add_like(cls,data):
+        query="INSERT INTO likes (user_id, comment_id) VALUES (%(user_id)s, %(comment_id)s);"
+        results= connectToMySQL(cls.db_name).query_db(query,data)
         return results
-        
+
+    @classmethod
+    def unLike(cls,data):
+        query="DELETE FROM likes WHERE user_id= %(user_id)s AND comment_id = %(comment)s;"
+        results= connectToMySQL(cls.db_name).query_db(query,data)
+        return results
+
+    
