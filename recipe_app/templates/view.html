@@ -34,7 +34,7 @@
     </form>
     <p> 
         {% for comment in all.comments %}
-            <p> {{NewUser.users.first_name}} says: {{comment.comment}}</p>
+            <p> {{comment.first_name}} says: {{comment.comment}}</p>
         {% endfor %}
     </p>
         

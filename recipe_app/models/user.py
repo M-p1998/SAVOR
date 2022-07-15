@@ -127,4 +127,9 @@ class User:
             users.append(user["user_being_followed"])
         return users
 
-   
+    @classmethod
+    def get_comment_with_user(cls,data):
+        query="SELECT comments.user_id, comments.id as comment_id,users.first_name,comments.comment, comments.created_at,comments.comment as liked_comments from likes RIGHT JOIN comments ON comments.id = likes.comment_id JOIN users ON comments.user_id = users.id GROUP BY comment_id ORDER BY comments.created_at DESC;"
+        results = connectToMySQL(cls.db_name).query_db(query,data)
+        return results
+        

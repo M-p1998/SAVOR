@@ -40,7 +40,9 @@ def view_one(id):
         "id":session["user_id"]
     }
     # comments = Recipe.get_recipe_with_comment(recipe_data)
-    comments = Comment.get_user_with_comment(user_data)
+    # comments = Comment.get_user_with_comment(user_data)
+    # print(comments[0])
+    comments = User.get_comment_with_user(user_data)
     get_recipe=Recipe.get_one_recipe(recipe_data)
     get_user = User.get_user_by_id(user_data)
     user = Recipe.get_recipe_with_user(recipe_data)
