@@ -46,20 +46,17 @@
             {% if comment.comment %}
                 <p> {{comment.userName}} says: {{comment.comment}} </p>
                 <!-- <input type="submit" value="Like"/>  -->
-                    
-                        {% if comment.id in LIKE %}
-                        <td><a href="/comments/{{comment.id}}/add_like">Like</a></td>
+                   
+                        {% if comment.LIKE %}
+                        <td><a href="/comments/{{comment.id}}/{{recipe.id}}/unlike">Unlike</a></td>
                         {% else %}
-                        <td><a href="/comments/{{comment.id}}/unlike">Unlike</a></td>
+                        <td><a href="/comments/{{comment.id}}/{{recipe.id}}/add_like">Like</a></td>
                         {% endif %}
+                   
                    
             {% endif %}
         {% endfor %}
     </p>
-    
-    {% if user.id != session.user_id %}
-    {% endif %}
-    
     
 </body>
 </html>

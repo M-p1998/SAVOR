@@ -38,21 +38,20 @@ def view_one(id):
         "id":session["user_id"]
     } 
     recipe_data={
-        "id": id
+        "id": id,
+        "user_id": session["user_id"]
     }
     user_data={
         "id":session["user_id"]
     }
     comments = Recipe.get_recipe_with_comment(recipe_data)
-    get_c = Comment.get_user_with_comment(user_data)
+   
     # print(comments[0])
     # comments = User.get_comment_with_user(user_data)
     get_recipe=Recipe.get_one_recipe(recipe_data)
     get_user = User.get_user_by_id(user_data)
     user = Recipe.get_recipe_with_user(recipe_data)
-    
-    LIKE = User.likeComments(data)
-    return render_template("view.html", recipe=get_recipe, user=get_user, NewUser=user, all=comments, get_c = get_c, LIKE=LIKE )
+    return render_template("view.html", recipe=get_recipe, user=get_user, NewUser=user, all=comments)
 
 @app.route("/recipes/edit/<int:recipe_id>")
 def edit(recipe_id):
@@ -104,26 +103,23 @@ def create_comment(recipe_id):
     print(request.form)
     return redirect(f"/recipes/{recipe_id}")
 
-@app.route("/comments/<int:comment_id>/add_like")
-def like_comment(comment_id):
+@app.route("/comments/<int:comment_id>/<int:recipe_id>/add_like")
+def like_comment(comment_id,recipe_id):
     data = {
         "user_id": session["user_id"],
         'comment_id': comment_id
     }
-    recipe_id = {
-        "id" : recipe_id
-    }
-    User.add_like(data)
+   
+    c = Comment.add_like(data)
+    print(data)
     return redirect(f"/recipes/{recipe_id}")
 
-@app.route("/comments/<comment_id>/unlike")
-def unlike_comment(comment_id):
+@app.route("/comments/<comment_id>/<int:recipe_id>/unlike")
+def unlike_comment(comment_id,recipe_id):
     data = {
         'user_id': session['user_id'],
         "comment_id": comment_id
     }
-    recipe_id = {
-        "id" : comment_id
-    }
-    User.unLike(data)
+    
+    Comment.unLike(data)
     return redirect(f"/recipes/{recipe_id}")

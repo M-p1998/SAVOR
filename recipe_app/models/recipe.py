@@ -2,6 +2,7 @@ from recipe_app.config.mysqlconnection import connectToMySQL
 from recipe_app.models import user
 from recipe_app.models import comment
 from flask import flash
+import pprint
 class Recipe:
     db_name="recipes"
     def __init__(self,data):
@@ -72,12 +73,13 @@ class Recipe:
       
     @classmethod
     def get_recipe_with_comment(cls,data):
-        query="SELECT * FROM recipes LEFT JOIN comments ON comments.recipe_id = recipes.id LEFT JOIN users ON comments.user_id = users.id WHERE recipes.id = %(id)s;"
+        query="SELECT * ,likes.user_id AS liked_by FROM recipes LEFT JOIN comments ON comments.recipe_id = recipes.id LEFT JOIN users ON comments.user_id = users.id LEFT JOIN likes ON likes.user_id=%(user_id)s AND likes.comment_id = comments.id  WHERE recipes.id = %(id)s;"
         results=  connectToMySQL(cls.db_name).query_db(query,data)
         recipe = cls(results[0])
+        # pprint.pprint(results)
         for one_recipe in results:
             comment_data={
-                "id" : one_recipe["id"],
+                "id" : one_recipe["comments.id"],
                 "comment" : one_recipe["comment"],
                 "user_id" :one_recipe["user_id"],
                 "recipe_id" :one_recipe["recipe_id"],
@@ -85,9 +87,16 @@ class Recipe:
                 "updated_at": one_recipe["updated_at"]
             }
             get_comments = comment.Comment(comment_data)
+            # liked_by same as likes.user_id
+            if one_recipe ["likes.user_id"] == data["user_id"]:
+                get_comments.LIKE = True
+                print(one_recipe["comments.id"])
+                print(one_recipe["liked_by"])
             get_comments.userName = one_recipe["first_name"]
             recipe.comments.append(get_comments)
+        # pprint.pprint(recipe)
         return recipe
+        
 
 
     @staticmethod
