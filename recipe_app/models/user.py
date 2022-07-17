@@ -127,6 +127,12 @@ class User:
             users.append(user["user_being_followed"])
         return users
 
+    @classmethod
+    def get_user_with_recipe(cls,data):
+        query="SELECT * FROM users LEFT JOIN recipes on recipes.id = users.id WHERE users.id = %(id)s;"
+        results = connectToMySQL(cls.db_name).query_db(query,data)
+        return results
+
 
 
     
