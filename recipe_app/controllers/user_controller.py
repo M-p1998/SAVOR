@@ -114,11 +114,12 @@ def unfollow(user_id):
     User.unfollowed_user(data)
     return redirect("/users")
 
-@app.route("/profile")
-def profile():
+@app.route("/profile/<int:user_id>")
+def profile(user_id):
     data={
         "id": session["user_id"]
     }
     one_user = User.get_user_by_id(data)
     all_recipe=User.get_user_with_recipe(data)
-    return render_template("profile.html", one_user=one_user, all_recipe=all_recipe)
+    user=User.followed_user(data)
+    return render_template("profile.html", one_user=one_user, all_recipe=all_recipe, user=user)

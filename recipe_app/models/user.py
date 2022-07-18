@@ -1,5 +1,6 @@
 from recipe_app.config.mysqlconnection import connectToMySQL
 from recipe_app import app
+from recipe_app.models import recipe
 from flask import flash
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
@@ -18,6 +19,8 @@ class User:
         self.updated_at = data["updated_at"]
 
         self.likes=[]
+
+        self.recipes = []
 
     
     @classmethod
@@ -129,8 +132,22 @@ class User:
 
     @classmethod
     def get_user_with_recipe(cls,data):
-        query="SELECT * FROM users LEFT JOIN recipes on recipes.id = users.id WHERE users.id = %(id)s;"
+        query="SELECT * FROM users JOIN recipes on recipes.user_id = users.id WHERE users.id = %(id)s;"
         results = connectToMySQL(cls.db_name).query_db(query,data)
+        users=(cls(results[0]))
+        for dict in results:
+            recipe_data={
+                "id":dict["id"],
+                "name":dict["name"],
+                "description" : dict["description"],
+                "instruction": dict["instruction"],
+                "date_made_on" : dict["date_made_on"],
+                "under_30_minutes" : dict["under_30_minutes"],
+                "user_id" : dict["user_id"],
+                "created_at" : dict["created_at"],
+                "updated_at" : dict["updated_at"]
+            }
+            users.recipes.append(recipe.Recipe(recipe_data))
         return results
 
 

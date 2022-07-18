@@ -50,7 +50,7 @@ class Recipe:
                 "updated_at":all["updated_at"]
             }
             users = user.User(user_data)
-            recipe.users=users
+            recipe.users
         return recipe
 
     @classmethod

@@ -8,9 +8,15 @@
 </head>
 <body>
     <h1>{{one_user.first_name}}'s profile</h1>
-    {% for recipe in all_recipe.recipes %}
-        <p>{{recipe.name}}</p>
-        <p>{{recipe.description}}</p>
+    {% for recipe in all_recipe %}
+        <p>Name: {{recipe.name}}</p>
+        <p>Description: {{recipe.description}}</p>
+        <p>Instruction: {{recipe.instruction}}</p>
+        <p>Date_made_on: {{recipe.date_made_on}}</p>
+        <p>Under_30_minutes: {{recipe.under_30_minutes}}</p>
+
+        ------------------
     {% endfor %}
+    <p>{{one_user.first_name}} is following {{user.user_being_followed}}</p>
 </body>
 </html>
