@@ -134,7 +134,7 @@ class User:
     def get_user_with_recipe(cls,data):
         query="SELECT * FROM users JOIN recipes on recipes.user_id = users.id WHERE users.id = %(id)s;"
         results = connectToMySQL(cls.db_name).query_db(query,data)
-        users=(cls(results[0]))
+        users=cls(results[0])
         for dict in results:
             recipe_data={
                 "id":dict["id"],
@@ -147,7 +147,15 @@ class User:
                 "created_at" : dict["created_at"],
                 "updated_at" : dict["updated_at"]
             }
+            # Recipe = recipe.Recipe(recipe_data)
+            # users.recipes.append(Recipe)  
             users.recipes.append(recipe.Recipe(recipe_data))
+        return results
+
+    @classmethod
+    def get_user_with_followers(cls,data):
+        query="SELECT users.first_name AS user_following, users2.first_name as user_being_followed from users LEFT JOIN followers on users.id = followers.user_following LEFT JOIN users as users2 on users2.id = followers.user_being_followed WHERE users.id = %(id)s;"
+        results=connectToMySQL(cls.db_name).query_db(query,data)
         return results
 
 

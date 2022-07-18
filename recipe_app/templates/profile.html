@@ -7,16 +7,30 @@
     <title>Profile</title>
 </head>
 <body>
+    <a href="/dashboard">Dashboard</a>
     <h1>{{one_user.first_name}}'s profile</h1>
+    <p>First Name: {{one_user.first_name}}</p>
+    <p>Last Name: {{one_user.last_name}}</p>
+    <p>Last Name: {{one_user.email}}</p>
+    ---------------------
     {% for recipe in all_recipe %}
+        <!-- {% if recipe.name %} -->
         <p>Name: {{recipe.name}}</p>
         <p>Description: {{recipe.description}}</p>
         <p>Instruction: {{recipe.instruction}}</p>
         <p>Date_made_on: {{recipe.date_made_on}}</p>
         <p>Under_30_minutes: {{recipe.under_30_minutes}}</p>
 
-        ------------------
+        --------------------
+        <!-- {% endif %} -->
     {% endfor %}
-    <p>{{one_user.first_name}} is following {{user.user_being_followed}}</p>
+    <p>{{one_user.first_name}} is following </p>
+    <p>
+        {% for users in user %}
+            {{users.user_being_followed}}<br/>
+            <!-- <h1>{{users.user_following}}</h1> -->
+        {% endfor %}
+    </p>
+
 </body>
 </html>

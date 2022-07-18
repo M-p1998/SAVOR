@@ -121,5 +121,7 @@ def profile(user_id):
     }
     one_user = User.get_user_by_id(data)
     all_recipe=User.get_user_with_recipe(data)
-    user=User.followed_user(data)
+    # user=User.followed_user(data)
+    # followed_user=User.show_users(data)
+    user=User.get_user_with_followers(data)
     return render_template("profile.html", one_user=one_user, all_recipe=all_recipe, user=user)

@@ -96,8 +96,6 @@ class Recipe:
             recipe.comments.append(get_comments)
         # pprint.pprint(recipe)
         return recipe
-        
-
 
     @staticmethod
     def validate_recipe(data):
