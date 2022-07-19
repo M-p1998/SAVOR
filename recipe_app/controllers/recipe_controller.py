@@ -51,6 +51,7 @@ def view_one(id):
     get_recipe=Recipe.get_one_recipe(recipe_data)
     get_user = User.get_user_by_id(user_data)
     user = Recipe.get_recipe_with_user(recipe_data)
+    print(user)
     return render_template("view.html", recipe=get_recipe, user=get_user, NewUser=user, all=comments)
 
 @app.route("/recipes/edit/<int:recipe_id>")

@@ -11,10 +11,10 @@
     <h1>{{one_user.first_name}}'s profile</h1>
     <p>First Name: {{one_user.first_name}}</p>
     <p>Last Name: {{one_user.last_name}}</p>
-    <p>Last Name: {{one_user.email}}</p>
+    <p>Email: {{one_user.email}}</p>
     ---------------------
     {% for recipe in all_recipe %}
-        <!-- {% if recipe.name %} -->
+        {% if recipe.name %}
         <p>Name: {{recipe.name}}</p>
         <p>Description: {{recipe.description}}</p>
         <p>Instruction: {{recipe.instruction}}</p>
@@ -22,13 +22,20 @@
         <p>Under_30_minutes: {{recipe.under_30_minutes}}</p>
 
         --------------------
-        <!-- {% endif %} -->
+        {% endif %}
     {% endfor %}
     <p>{{one_user.first_name}} is following </p>
     <p>
         {% for users in user %}
             {{users.user_being_followed}}<br/>
-            <!-- <h1>{{users.user_following}}</h1> -->
+            <!-- {{users.user_following}} -->
+            <!-- <h1>{{one_user.first_name}}'s followers: {{users.user_following}}</h1> -->
+            <!-- <strong>{{one_user.first_name}}'s followers: {{users.user_following}}</strong> -->
+        {% endfor %}
+        <!-- <h1>{{one_user.first_name}}'s followers: {{user.user_following}} </h1> -->
+        <h1>{{one_user.first_name}} is followed by </h1>
+        {% for one in follower %}
+            {{one.user_following}}<br/>
         {% endfor %}
     </p>
 

@@ -132,20 +132,20 @@ class User:
 
     @classmethod
     def get_user_with_recipe(cls,data):
-        query="SELECT * FROM users JOIN recipes on recipes.user_id = users.id WHERE users.id = %(id)s;"
+        query="SELECT * FROM users LEFT JOIN recipes on recipes.user_id = users.id WHERE users.id = %(id)s;"
         results = connectToMySQL(cls.db_name).query_db(query,data)
         users=cls(results[0])
         for dict in results:
             recipe_data={
-                "id":dict["id"],
+                "id":dict["recipes.id"],
                 "name":dict["name"],
                 "description" : dict["description"],
                 "instruction": dict["instruction"],
                 "date_made_on" : dict["date_made_on"],
                 "under_30_minutes" : dict["under_30_minutes"],
                 "user_id" : dict["user_id"],
-                "created_at" : dict["created_at"],
-                "updated_at" : dict["updated_at"]
+                "created_at" : dict["recipes.created_at"],
+                "updated_at" : dict["recipes.updated_at"]
             }
             # Recipe = recipe.Recipe(recipe_data)
             # users.recipes.append(Recipe)  
@@ -153,10 +153,17 @@ class User:
         return results
 
     @classmethod
-    def get_user_with_followers(cls,data):
+    def get_user_with_user_being_followed(cls,data):
         query="SELECT users.first_name AS user_following, users2.first_name as user_being_followed from users LEFT JOIN followers on users.id = followers.user_following LEFT JOIN users as users2 on users2.id = followers.user_being_followed WHERE users.id = %(id)s;"
         results=connectToMySQL(cls.db_name).query_db(query,data)
         return results
+
+    @classmethod
+    def get_user_with_followers(cls,data):
+        query="SELECT users.first_name as user_following, users2.first_name as user_being_followed from users left join followers on users.id = followers.user_following LEFT JOIN users as users2 on users2.id = followers.user_being_followed WHERE followers.user_being_followed = %(id)s;"
+        results=connectToMySQL(cls.db_name).query_db(query,data)
+        return results
+
 
 
 
