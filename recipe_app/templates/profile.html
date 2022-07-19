@@ -28,7 +28,8 @@
     <p>
         {% for users in user %}
             
-            {{users.user_being_followed}}<br/>
+            
+                {{users.user_being_followed}}<br/>
           
         {% endfor %}
        
@@ -38,8 +39,8 @@
     <h1>{{one_user.first_name}} is followed by </h1>
     <p>
         {% for one in follower %}
-
-            {{one.user_following}}<br/>
+            
+                {{one.user_following}}<br/>
             
         {% endfor %}
     </p>
