@@ -27,17 +27,21 @@
     <p>{{one_user.first_name}} is following </p>
     <p>
         {% for users in user %}
+            
             {{users.user_being_followed}}<br/>
-            <!-- {{users.user_following}} -->
-            <!-- <h1>{{one_user.first_name}}'s followers: {{users.user_following}}</h1> -->
-            <!-- <strong>{{one_user.first_name}}'s followers: {{users.user_following}}</strong> -->
+          
         {% endfor %}
-        <!-- <h1>{{one_user.first_name}}'s followers: {{user.user_following}} </h1> -->
-        <h1>{{one_user.first_name}} is followed by </h1>
+       
+        
+    </p>
+    
+    <h1>{{one_user.first_name}} is followed by </h1>
+    <p>
         {% for one in follower %}
+
             {{one.user_following}}<br/>
+            
         {% endfor %}
     </p>
-
 </body>
 </html>
