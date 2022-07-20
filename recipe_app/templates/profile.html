@@ -26,23 +26,25 @@
     {% endfor %}
     <p>{{one_user.first_name}} is following </p>
     <p>
-        {% for users in user %}
-            
-            
+        {% if user|length > 0 %}
+            {% for users in user %}
                 {{users.user_being_followed}}<br/>
-          
-        {% endfor %}
-       
+            {% endfor %}
+            {% else %}
+                <h1>none</h1>
+        {% endif %}
         
     </p>
     
     <h1>{{one_user.first_name}} is followed by </h1>
     <p>
-        {% for one in follower %}
-            
-                {{one.user_following}}<br/>
-            
-        {% endfor %}
+        {% if follower|length > 0%}
+            {% for one in follower %} 
+                {{one.user_following}}<br/> 
+            {% endfor %}
+            {% else %}
+            <p>none</p>
+        {% endif %}
     </p>
 </body>
 </html>

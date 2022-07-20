@@ -154,13 +154,15 @@ class User:
 
     @classmethod
     def get_user_with_user_being_followed(cls,data):
-        query="SELECT users.first_name AS user_following, users2.first_name as user_being_followed from users LEFT JOIN followers on users.id = followers.user_following LEFT JOIN users as users2 on users2.id = followers.user_being_followed WHERE users.id = %(id)s;"
+        # query="SELECT users.first_name AS user_following, users2.first_name as user_being_followed from users LEFT JOIN followers on users.id = followers.user_following LEFT JOIN users as users2 on users2.id = followers.user_being_followed WHERE users.id = %(id)s;"
+        query="SELECT users.first_name AS user_following, users2.first_name as user_being_followed from users LEFT JOIN followers on users.id = followers.user_following LEFT JOIN users as users2 on users2.id = followers.user_being_followed WHERE followers.user_following = %(id)s;"
         results=connectToMySQL(cls.db_name).query_db(query,data)
         return results
 
     @classmethod
     def get_user_with_followers(cls,data):
         query="SELECT users.first_name AS user_following, users2.first_name as user_being_followed from users LEFT JOIN followers on users.id = followers.user_following LEFT JOIN users as users2 on users2.id = followers.user_being_followed WHERE followers.user_being_followed = %(id)s;"
+        # query= "SELECT users.first_name AS user_following, users2.first_name as user_being_followed from users LEFT JOIN followers on users.id = followers.user_following LEFT JOIN users as users2 on users2.id = followers.user_being_followed WHERE followers.user_being_followed = %(id)s;"
         results=connectToMySQL(cls.db_name).query_db(query,data)
         return results
 
