@@ -27,7 +27,9 @@ class User:
     def get_user_by_id(cls, data):
         query = "SELECT * FROM users WHERE users.id = %(id)s;"
         results = connectToMySQL(cls.db_name).query_db(query,data)
+        print(results)
         return cls(results[0])
+        
     
     @classmethod
     def get_user_by_email(cls, data):
@@ -38,6 +40,7 @@ class User:
             return False    
         else:
             return cls(results[0])
+        # return results
 
     @classmethod
     def register_user(cls, data):

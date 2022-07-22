@@ -25,6 +25,7 @@ def createUser():
     }
     user_id = User.register_user(data)
     session ["user_id"] = user_id
+    print(user_id)
     return redirect("/dashboard")
 
 @app.route("/dashboard")
