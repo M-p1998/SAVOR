@@ -57,6 +57,7 @@ def login():
         return redirect("/")
     
     if not bcrypt.check_password_hash(user_with_email.password,request.form["Password"]):
+        flash("Invalid Email/Password.","login")
         return redirect("/")
     # populate session with logged in user's id
     session["user_id"] = user_with_email.id

@@ -2,6 +2,7 @@ from recipe_app.config.mysqlconnection import connectToMySQL
 from recipe_app.models import user
 from recipe_app.models import comment
 from flask import flash
+from datetime import datetime
 import pprint
 class Recipe:
     db_name="recipes"
@@ -110,14 +111,73 @@ class Recipe:
         if len(data["INSTRUCTION"]) <3:
             flash("Instructions must be at least 3 characters.",'recipe')
             is_valid=False
-        if len(data["DATE_MADE_ON"]) =="":
-            flash("Please enter a date","recipe")
-            is_valid=False
+        
+        if data['DATE_MADE_ON'] == "":
+            flash("Please enter a date", "recipe")
+            is_valid = False
+        else:
+            try:
+                date = datetime.strptime(data['DATE_MADE_ON'], '%Y-%m-%d')
+                if date > datetime.now():
+                    flash("Future date is not allowed", "recipe")
+                    is_valid = False
+            except ValueError:
+                flash("Invalid date format, should be YYYY-MM-DD", "recipe")
+                is_valid = False
             
         if "UNDER_30_MINUTES" not in data  :
             flash("Please choose one.","recipe")
             is_valid=False
        
         return is_valid
+
+    # search validate
+    # @staticmethod
+    # def validate_search_recipe(data):
+    #     is_valid=True
+    #     # if len(data["search_recipes"]) <1:
+    #     #     flash("Name must be at least 1 characters.","search")
+    #     #     is_valid=False
+    #     # return is_valid
+    #     if not data.get("search_recipes") or not len(data["search_recipes"]):
+    #         flash("Name must be at least 1 characters.","search")
+    #         is_valid=False
+    #     return is_valid
+
+    # @staticmethod
+    # def validate_search_recipe(data):
+    #     is_valid = True
+    #     if len(data["search_recipes"]) < 1:
+    #         is_valid = False
+    #     return is_valid
+
+
+    # # search
+    # @classmethod
+    # def search_R(cls,data):
+    #     query="SELECT * FROM recipes WHERE name=%(name)s;"
+    #     results = connectToMySQL(cls.db_name).query_db(query,data)
+    #     if results:
+    #         return results[0]
+    #     else:
+    #         return False
+
+    # @classmethod
+    # def search_R(cls, data):
+    #     # Create a query to search the database
+    #     query = "SELECT * FROM recipes WHERE name LIKE %(name)s"
+    #     data = {
+    #         "name": data['search_recipes']
+    #     }
+    #     print(data)
+
+    #     # Execute the query and fetch the results
+    #     results = connectToMySQL(cls.db_name).query_db(query, data)
+    #     print(results)
+    #     return results
+
+    
+    
+
 
 

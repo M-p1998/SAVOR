@@ -7,7 +7,17 @@ from flask import render_template, redirect, session, flash, request
 
 @app.route("/recipes/new")
 def new():
-    return render_template("create_recipe.html")
+    # recipe = Recipe.search_R()
+    # print(recipe)
+    data={
+        "id": session["user_id"]
+    }
+    user=User.get_user_by_id(data)
+    return render_template("create_recipe.html", user=user)
+
+# @app.route("/results")
+# def results():
+#     return render_template("results.html", recipes = results)
 
 @app.route("/create/recipe", methods=["post"])
 def createRecipe():
@@ -124,3 +134,124 @@ def unlike_comment(comment_id,recipe_id):
     
     Comment.unLike(data)
     return redirect(f"/recipes/{recipe_id}")
+
+# create search
+# @app.route("/search" ,  methods=["post"])
+# def search_recipe_with_all():
+#     # if not Recipe.validate_search_recipe(request.form):
+#     #     return redirect("/recipes/new")
+#     # data={
+#     #     "NAME": request.form["search_recipes"],
+       
+#     # }
+#     if not Recipe.validate_search_recipe(request.form):
+#         flash("Name must be at least 1 characters.", "search")
+#         return redirect("/search")
+    
+#     data={
+#         "NAME": request.form["search_recipes"],
+#         "DESCRIPTION": request.form["DESCRIPTION"],
+#         "INSTRUCTION": request.form["INSTRUCTION"],
+#         "DATE_MADE_ON":request.form["DATE_MADE_ON"],
+#         "UNDER_30_MINUTES":request.form["UNDER_30_MINUTES"]
+#     }
+
+
+    
+    
+#     # Recipe.search_R(data)
+#     # return redirect("/dashboard")
+#     results = Recipe.search_R(data)
+#     if results:
+#         return redirect("/results")
+#     else:
+#         flash("No results found.")
+#         return redirect("/dashboard")
+
+
+# Create a route for the search functionality
+# @app.route("/search", methods=["POST"])
+# def search_recipe():
+#     data = {
+#         "search_recipes": request.form["search_recipes"]
+#     }
+
+#     # Validate the search query
+#     if not Recipe.validate_search_recipe(data):
+#         flash("Search query must be at least 1 character long.", "search")
+#         return redirect("/recipes/new")
+
+#     # Search the database
+#     results = Recipe.search_R(data)
+
+#     # Check if any results were found
+#     if results:
+#         return render_template("results.html", recipes=results)
+#     else:
+#         flash("No results found.")
+#         return redirect("/dashboard")
+
+# In your search route function
+# @app.route("/search" ,  methods=["post"])
+# def search_recipe_with_all():
+#     if not Recipe.validate_search_recipe(request.form):
+#         flash("Name must be at least 1 characters.","search")
+#         return redirect("/recipes/new")
+#         # return redirect("/recipes/new")
+#     data={
+#         "search_recipes": request.form["search_recipes"]
+#     }
+#     results = Recipe.search_R(data)
+#     print(results)
+#     if results:
+#         # return render_template("results.html", recipes=results)
+#         return redirect("/results")
+#     else:
+#         flash("No results found.")
+#         return redirect("/dashboard")
+
+
+# @app.route("/search" ,  methods=["post"])
+# def search_recipe_with_all():
+#     if not Recipe.validate_search_recipe(request.form):
+#         flash("Name must be at least 1 characters.","search")
+#         return redirect("/recipes/new")
+#         # return redirect("/recipes/new")
+#     data={
+#         "search_recipes": request.form["search_recipes"]
+#     }
+#     results = Recipe.search_R(data)
+#     print(results)
+#     if results:
+#         return render_template("results.html", recipes=results)
+#         # return redirect("/results")
+#     else:
+#         flash("No results found.")
+#         return redirect("/dashboard")
+
+# -----------------------------------------------
+
+# import pymysql
+
+# # Connect to the database
+# connection = pymysql.connect(host='your_host',
+#                              user='your_username',
+#                              password='your_password',
+#                              db='your_database')
+
+# # Create a cursor object
+# cursor = connection.cursor()
+
+# # Execute the query
+# cursor.execute(query, data)
+
+# # Fetch the results
+# results = cursor.fetchall()
+
+# # Close the cursor and connection
+# cursor.close()
+# connection.close()
+
+
+
+    

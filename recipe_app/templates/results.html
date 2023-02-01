@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results </title>
+</head>
+<body>
+    
+    <p>
+        {% for recipe in recipes %}
+            <div>
+                <h2>{{recipe.name}}</h2>
+                <p>{{recipe.under_30_minutes}}</p>
+                <p>
+                    <a href="/recipes/{{recipe.id}}">view instructions</a>
+                    
+                    {% if recipe.user_id == session.user_id %}
+                        <a href="/recipes/edit/{{recipe.id}}">Edit</a>
+                        <a href="/delete/{{recipe.id}}">Delete</a>
+                    {% else %}
+                    {% endif %}
+                </p>
+            </div>
+        {% endfor %}
+    </p>
+
+</body>
+</html>
