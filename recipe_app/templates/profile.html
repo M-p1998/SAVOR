@@ -4,11 +4,41 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/create.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Profile</title>
 </head>
 <body>
-    <a href="/dashboard">Dashboard</a>
-    <h1>{{one_user.first_name}}'s profile</h1>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <h1 class="text-center">Savor</h1>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav mr-auto">
+          </ul>
+          <h1 class="text-center">{{one_user.first_name}}'s profile</h1>
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/dashboard">Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/recipes/new">Add a new recipe</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/users">Users</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/logout">Log out</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/profile/{{user.id}}">Profile</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div  class="col-7 p-4 my-4 bg-info text-dark mx-auto">
     <p>First Name: {{one_user.first_name}}</p>
     <p>Last Name: {{one_user.last_name}}</p>
     <p>Email: {{one_user.email}}</p>
@@ -18,13 +48,13 @@
         <p>Name: {{recipe.name}}</p>
         <p>Description: {{recipe.description}}</p>
         <p>Instruction: {{recipe.instruction}}</p>
-        <p>Date_made_on: {{recipe.date_made_on}}</p>
+        <p>Date_made_on: {{recipe.date_made_on.strftime('%b-%d-%Y')}}</p>
         <p>Under_30_minutes: {{recipe.under_30_minutes}}</p>
 
         --------------------
         {% endif %}
     {% endfor %}
-    <p>{{one_user.first_name}} is following </p>
+    <h3>{{one_user.first_name}} is following </h3>
     <p>
         {% if user|length > 0 %}
             {% for users in user %}
@@ -35,7 +65,7 @@
         {% endif %} 
     </p>
     
-    <h1>{{one_user.first_name}} is followed by </h1>
+    <h3>{{one_user.first_name}} is followed by </h3>
     <p>
         {% if follower|length > 0%}
             {% for one in follower %} 
@@ -45,5 +75,6 @@
             <p>none</p>
         {% endif %}
     </p>
+    </div>
 </body>
 </html>

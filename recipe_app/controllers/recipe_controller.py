@@ -71,8 +71,12 @@ def edit(recipe_id):
     data={
         "id": recipe_id
     }
+    I_data={
+        "id": session["user_id"]
+    }
+    user=User.get_user_by_id(I_data)
     one=Recipe.get_one_recipe(data)
-    return render_template("edit.html", oneRecipe=one)
+    return render_template("edit.html", oneRecipe=one, user=user)
 
 @app.route("/update/recipe/<int:recipe_id>", methods=["post"])
 def updateRecipe(recipe_id):

@@ -1,51 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/create.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Recipes</title>
 </head>
+
 <body>
-    <h1>Edit Recipe</h1>
-    <a href="/dashboard">Dashboard</a>
-    <a href="/logout">Log out</a>
-    <form action="/update/recipe/{{oneRecipe.id}}" method="post">
+
+    <nav class="navbar navbar-expand-lg navbar-light ">
+        <h1 class="text-center">Savor</h1>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+            </ul>
+            <h1 class="text-center">Welcome {{user.first_name}}</h1>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/recipes/new">Add a new recipe</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/users">Users</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Log out</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/profile/{{user.id}}">Profile</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <form action="/update/recipe/{{oneRecipe.id}}" method="post" class="col-7 p-4 my-4 bg-info text-dark mx-auto">
+        <h1 class=" d-flex justify-content-center text-primary">Edit Recipe</h1>
         <!-- <input type="hidden" name="user_id"/> -->
         {% with messages = get_flashed_messages(category_filter=['recipe']) %}
-            {% if messages %}
-            <div class="alert alert-danger" role="alert">
-                <strong>Flash!!!!</strong>
-                    {% for message in messages %}
-                    <p>{{message}}</p>
-                    {% endfor %}
-            </div>
-            {% endif %}
+        {% if messages %}
+        <div class="alert alert-danger" role="alert">
+            <strong>Flash!!!!</strong>
+            {% for message in messages %}
+            <p>{{message}}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
         {% endwith %}
-        <p>
-            <label>Name:</label>
-            <input type="text" name="NAME" value="{{oneRecipe.name}}" />
-         </p>
-         <p>
-            <label>Description:</label>
-            <textarea name="DESCRIPTION" >{{oneRecipe.description}}</textarea>
-         </p>         
-         <p>
-            <label>Instructions:</label>
-            <textarea name="INSTRUCTION" >{{oneRecipe.instruction}}</textarea>
-         </p>
-         <P>
-            <label>Date Made On:</label>
-            <input type="date" name="DATE_MADE_ON" value="{{oneRecipe.date_made_on.strftime('%Y-%m-%d')}}"/>
-        </P>
-        <P>
-            <label>Under 30 Minutes?:</label>
-            <input type="radio" name="UNDER_30_MINUTES" value="Yes" />
-            <label>Yes</label>
-            <input type="radio" name="UNDER_30_MINUTES" value="No" />
-            <label>No</label>
-        </P>
-        <input type="submit" value="Update"/>
+        <div class="d-flex justify-content-between col-9">
+            <div>
+                <div class="form-group">
+                    <label>Name:</label>
+                    <input class="form-control" type="text" name="NAME" value="{{oneRecipe.name}}" />
+                </div>
+
+                <div class="form-group">
+                    <label>Description:</label>
+                    <textarea cols="30" rows="5" class="form-control" name="DESCRIPTION">{{oneRecipe.description}}</textarea>
+                </div>
+                <div class="form-group">
+                    <label>Instructions:</label>
+                    <textarea cols="30" rows="5" class="form-control" name="INSTRUCTION">{{oneRecipe.instruction}}</textarea>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label>Date Made On:</label>
+                    <input type="date" name="DATE_MADE_ON" value="{{oneRecipe.date_made_on.strftime('%Y-%m-%d')}}" />
+                </div>
+                <div>
+                    <label>Under 30 Minutes?:</label>
+                    <div class="input-group-text bg-dark">
+                        <input type="radio" class="form-control" name="UNDER_30_MINUTES" value="Yes" />
+                        <label  class="text-warning">Yes</label>
+                    </div>
+                    <div class="input-group-text bg-dark">
+                        <input type="radio" class="form-control" name="UNDER_30_MINUTES" value="No" />
+                        <label  class="text-warning">No</label>
+                    </div>
+
+                    <br>
+                    <input type="submit" value="Update" class="btn btn-primary" />
+                </div>
     </form>
 </body>
+
 </html>

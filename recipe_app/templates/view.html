@@ -4,13 +4,46 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/create.css') }}">
     <title>Recipes</title>
 </head>
 <body>
-    <h1>Welcome {{user.first_name}} </h1>
+    <!-- <h1>Welcome {{user.first_name}} </h1>
     <a href="/dashboard">Dashboard</a>
-    <a href="/logout">Log out</a>
-    <h1>{{recipe.name}}</h1>
+    <a href="/logout">Log out</a> -->
+    <nav class="navbar navbar-expand-lg navbar-light ">
+        <h1 class="text-center">Savor</h1>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav mr-auto">
+          </ul>
+          <h1 class="text-center">Welcome {{user.first_name}}</h1>
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/dashboard">Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/recipes/new">Add a new recipe</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/users">Users</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/logout">Log out</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/profile/{{user.id}}">Profile</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div  class="col-7 p-4 my-4 bg-info text-dark mx-auto">
+    <h1 class=" d-flex justify-content-center text-primary">{{recipe.name}}</h1>
+    <!-- <div class="d-flex justify-content-between col-9"> -->
     <p>Description: {{recipe.description}}</p>
     <p>under_30_minutes: {{recipe.under_30_minutes}} </p>
     <p>Instructions: {{recipe.instruction}}</p>
@@ -24,7 +57,7 @@
             {% endif %}
         {% endif %}
 
-    <form action="/writeComment/{{recipe.id}}" method="post">
+    <form action="/writeComment/{{recipe.id}}" method="post" >
         {% with messages = get_flashed_messages (category_filter=['comment']) %}
             {% if messages %}
             <div class="alert alert-danger" role="alert">
@@ -36,27 +69,35 @@
             {% endif %}
         {% endwith %}
         <p>
-            <label>Write a comment:</label>
-            <textarea name="comment" type="text" ></textarea>
+            <!-- <label>Write a comment:</label> -->
+            <textarea placeholder="Write a comment" cols="30" rows="5" name="comment" type="text" ></textarea>
         </p>
         <input type="submit" value="Submit" />
     </form>
     <p> 
         {% for comment in all.comments %}
             {% if comment.comment %}
-                <p> {{comment.userName}} says: {{comment.comment}} </p>
+
+            {% if comment.LIKE %}
+            <td><a href="/comments/{{comment.id}}/{{recipe.id}}/unlike">Unlike</a></td>
+            {% else %}
+            <td><a href="/comments/{{comment.id}}/{{recipe.id}}/add_like">Like</a></td>
+            {% endif %}
+
+             <p>  {{comment.userName}} says : {{comment.comment}} </p>
                 <!-- <input type="submit" value="Like"/>  -->
                    
-                        {% if comment.LIKE %}
+                        <!-- {% if comment.LIKE %}
                         <td><a href="/comments/{{comment.id}}/{{recipe.id}}/unlike">Unlike</a></td>
                         {% else %}
                         <td><a href="/comments/{{comment.id}}/{{recipe.id}}/add_like">Like</a></td>
-                        {% endif %}
+                        {% endif %} -->
                    
                    
             {% endif %}
         {% endfor %}
     </p>
-    
+<!--  -->
+</div> 
 </body>
 </html>

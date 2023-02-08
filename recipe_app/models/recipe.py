@@ -113,7 +113,7 @@ class Recipe:
             is_valid=False
         
         if data['DATE_MADE_ON'] == "":
-            flash("Please enter a date", "recipe")
+            flash("Please enter a date.", "recipe")
             is_valid = False
         else:
             try:
@@ -126,7 +126,7 @@ class Recipe:
                 is_valid = False
             
         if "UNDER_30_MINUTES" not in data  :
-            flash("Please choose one.","recipe")
+            flash("Please choose one(Yes/No).","recipe")
             is_valid=False
        
         return is_valid

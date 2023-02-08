@@ -4,10 +4,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/create.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Users</title>
+
 </head>
 <body>
-    <h1>Users</h1>
 
     <!-- <form method="post" action="/search">
        
@@ -16,18 +19,48 @@
         <input  type="submit" value="Search">
     </form> -->
     
-    <a href="/dashboard">Dashboard</a>
-    <table>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <h1 class="text-center">Savor</h1>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav mr-auto">
+          </ul>
+          <h1 class="text-center">Welcome {{one.first_name}}</h1>
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/dashboard">Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/recipes/new">Add a new recipe</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/users">Users</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/logout">Log out</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/profile/{{one.id}}">Profile</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <!-- <h1>Users</h1> -->
+      <div class="  col-8 mx-auto">
+    <table style="text-align: left;" class="table table-hover">
         <thead>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Action</th>
+            <th style="width: 40%;">Name</th>
+            <th style="width: 40%;">Email</th>
+            <th style="width: 40%;">Action</th>
         </thead>
-        <tbody>
+        <tbody >
             {% for user in user %}
             <tr>
                 <td>{{user.first_name}} {{user.last_name}}</td>
-                <td>{{user.email}}</td>
+                <td >{{user.email}}</td>
                 {% if user.id != session.user_id %}
                     {% if user.id in followed_users %}
                     <td><a href="/unfollow/{{user.id}}">Unfollow</a></td>
@@ -39,5 +72,6 @@
             {% endfor %}
         </tbody>
     </table>
+</div>
 </body>
 </html>

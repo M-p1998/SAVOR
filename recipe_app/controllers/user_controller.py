@@ -95,7 +95,8 @@ def users():
     #     # {% endif %}
     # followed_users = [user["user_being_followed"] for user in mysql.query_db(query,data)]
     followed_users = User.show_users(data)
-    return render_template("users.html", user = users, followed_users=followed_users )
+    one_user=User.get_user_by_id(data)
+    return render_template("users.html",one=one_user, user = users, followed_users=followed_users )
 
 @app.route("/follow/<int:user_id>")
 def follow(user_id):
