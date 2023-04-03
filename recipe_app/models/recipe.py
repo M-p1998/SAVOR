@@ -98,6 +98,22 @@ class Recipe:
         # pprint.pprint(recipe)
         return recipe
 
+
+    @staticmethod
+    def is_valid_date(date_string):
+        try:
+            date = datetime.strptime(date_string, '%Y-%m-%d')
+            if date > datetime.now():
+                flash("Future date is not allowed", "recipe")
+                return False
+            elif date.date() < datetime.now().date():
+                flash("Past date is not allowed", "recipe")
+                return False
+        except ValueError:
+            flash("Invalid date format, should be YYYY-MM-DD", "recipe")
+            return False
+        return True
+
     @staticmethod
     def validate_recipe(data):
         is_valid=True
@@ -112,17 +128,24 @@ class Recipe:
             flash("Instructions must be at least 3 characters.",'recipe')
             is_valid=False
         
+        # if data['DATE_MADE_ON'] == "":
+        #     flash("Please enter a date.", "recipe")
+        #     is_valid = False
+        # else:
+        #     try:
+        #         date = datetime.strptime(data['DATE_MADE_ON'], '%Y-%m-%d')
+        #         if date > datetime.now():
+        #             flash("Future date is not allowed", "recipe")
+        #             is_valid = False
+        #     except ValueError:
+        #         flash("Invalid date format, should be YYYY-MM-DD", "recipe")
+        #         is_valid = False
+
         if data['DATE_MADE_ON'] == "":
             flash("Please enter a date.", "recipe")
             is_valid = False
         else:
-            try:
-                date = datetime.strptime(data['DATE_MADE_ON'], '%Y-%m-%d')
-                if date > datetime.now():
-                    flash("Future date is not allowed", "recipe")
-                    is_valid = False
-            except ValueError:
-                flash("Invalid date format, should be YYYY-MM-DD", "recipe")
+            if not Recipe.is_valid_date(data['DATE_MADE_ON']):
                 is_valid = False
             
         if "UNDER_30_MINUTES" not in data  :

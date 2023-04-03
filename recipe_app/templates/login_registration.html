@@ -40,7 +40,7 @@
             <label class="col-sm-6  col-form-label" for="confirm_pw">Confirm_password:</label>
             <input class="col-sm-5" type="password" name="confirm_password"/>
         </p>
-        <input class="button" type="submit" name="Register"/>
+        <input class="button" type="submit" value="Register"/>
     </form>
 
     {% with messages = get_flashed_messages(category_filter=["login"]) %}     
@@ -61,7 +61,7 @@
             <label class="col-sm-6  col-form-label" for="pw">Password:</label>
             <input class="col-sm-5" type="password" name="Password"/>
         </p>
-        <input class="button" class="col-sm-2" type="submit" name="Login"/>
+        <input class="button" class="col-sm-2" type="submit" value="Login"/>
     </form>
 </body>
 </html>
