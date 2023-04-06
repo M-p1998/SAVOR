@@ -8,3 +8,7 @@ nav{
 form{
     justify-content: center;
 }
+
+/* body {
+    background-image: url("{{ url_for('static', filename='img/b3.png') }}");
+  } */

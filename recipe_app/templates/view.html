@@ -35,7 +35,7 @@
               <a class="nav-link" href="/logout">Log out</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/profile/{{user.id}}">Profile</a>
+              <a class="nav-link" href="/profile">Profile</a>
             </li>
           </ul>
         </div>
@@ -99,5 +99,11 @@
     </p>
 <!--  -->
 </div> 
+
+<style>
+  body {
+    background-image: url("{{ url_for('static', filename='img/view.jpg') }}");
+  }
+</style>
 </body>
 </html>

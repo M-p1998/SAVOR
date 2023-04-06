@@ -117,14 +117,33 @@ def unfollow(user_id):
     User.unfollowed_user(data)
     return redirect("/users")
 
-@app.route("/profile/<int:user_id>")
-def profile(user_id):
+# @app.route("/profile/<int:user_id>")
+# def profile(user_id):
+#     data={
+#         "id": session["user_id"]
+#     }
+#     dd ={
+#         "id":user_id
+#     }
+    
+#     one_user = User.get_user_by_id(data)
+#     all_recipe=User.get_user_with_recipe(data)
+#     # userF=User.followed_user(data)
+#     user=User.get_user_with_user_being_followed(data)
+#     print(user)
+#     follower = User.get_user_with_followers(data)
+#     print(follower)
+#     return render_template("profile.html", one_user=one_user, all_recipe=all_recipe, user=user,follower=follower )
+
+
+@app.route("/profile")
+def profile():
     data={
         "id": session["user_id"]
     }
-    dd ={
-        "id":user_id
-    }
+    # dd ={
+    #     "id":user_id
+    # }
     
     one_user = User.get_user_by_id(data)
     all_recipe=User.get_user_with_recipe(data)
@@ -133,4 +152,4 @@ def profile(user_id):
     print(user)
     follower = User.get_user_with_followers(data)
     print(follower)
-    return render_template("profile.html", one_user=one_user, all_recipe=all_recipe, user=user,follower=follower)
+    return render_template("profile.html", one_user=one_user, all_recipe=all_recipe, user=user,follower=follower )

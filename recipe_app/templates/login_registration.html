@@ -9,7 +9,7 @@
     <title>Login and registration</title>
 </head>
 <body>
-    
+
     {% with messages = get_flashed_messages(category_filter=["register"]) %}     
         {% if messages %}                            
             {% for message in messages %}            
@@ -63,5 +63,12 @@
         </p>
         <input class="button" class="col-sm-2" type="submit" value="Login"/>
     </form>
+
+    <style>
+        body {
+          background-image: url("{{ url_for('static', filename='img/first.jpg') }}");
+        }
+      </style>
+   
 </body>
 </html>
