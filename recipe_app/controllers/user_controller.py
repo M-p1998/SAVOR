@@ -74,32 +74,21 @@ def users():
     if "user_id" not in session:
         return redirect("/logout")
 
-    # followed_users= User.show_users(data)
     users=User.get_all_users()
-    # for users in user:
-    #     for one in followed_users:
-            
-    #         if users.id == one.user_being_followed:
-    #             users.one_follower = True 
-    #             break
-    #         else:
-    #             users.one_follower=False
-    # mysql = connectToMySQL("recipes")
-    # query="SELECT user_being_followed FROM followers WHERE user_following = %(id)s;"
+   
     data={
         "id":session["user_id"]
     } 
-    # # {% if user.id != session.user_id %}
-    # #  <td><a href="/follow/{{user.id}}">Follow</a></td>
-                    
-    #     # {% endif %}
-    # followed_users = [user["user_being_followed"] for user in mysql.query_db(query,data)]
+    
     followed_users = User.show_users(data)
     one_user=User.get_user_by_id(data)
     return render_template("users.html",one=one_user, user = users, followed_users=followed_users )
 
 @app.route("/follow/<int:user_id>")
 def follow(user_id):
+    if "user_id" not in session:
+        redirect ("/logout")
+    
     data={
         "uid":session["user_id"],
         "uid2": user_id 
@@ -109,6 +98,8 @@ def follow(user_id):
 
 @app.route("/unfollow/<int:user_id>")
 def unfollow(user_id):
+    if "user_id" not in session:
+        redirect ("/logout")
     
     data={
         "uid":session["user_id"],
@@ -117,37 +108,20 @@ def unfollow(user_id):
     User.unfollowed_user(data)
     return redirect("/users")
 
-# @app.route("/profile/<int:user_id>")
-# def profile(user_id):
-#     data={
-#         "id": session["user_id"]
-#     }
-#     dd ={
-#         "id":user_id
-#     }
-    
-#     one_user = User.get_user_by_id(data)
-#     all_recipe=User.get_user_with_recipe(data)
-#     # userF=User.followed_user(data)
-#     user=User.get_user_with_user_being_followed(data)
-#     print(user)
-#     follower = User.get_user_with_followers(data)
-#     print(follower)
-#     return render_template("profile.html", one_user=one_user, all_recipe=all_recipe, user=user,follower=follower )
-
 
 @app.route("/profile")
 def profile():
+    if "user_id" not in session:
+        redirect ("/logout")
+    
     data={
         "id": session["user_id"]
     }
-    # dd ={
-    #     "id":user_id
-    # }
+   
     
     one_user = User.get_user_by_id(data)
     all_recipe=User.get_user_with_recipe(data)
-    # userF=User.followed_user(data)
+   
     user=User.get_user_with_user_being_followed(data)
     print(user)
     follower = User.get_user_with_followers(data)
