@@ -64,7 +64,7 @@ def view_one(id):
 @app.route("/recipes/edit/<int:recipe_id>")
 def edit(recipe_id):
     if "user_id" not in session:
-        redirect ("/logout")
+        return redirect ("/logout")
     data={
         "id": recipe_id
     }
